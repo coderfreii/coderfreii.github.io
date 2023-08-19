@@ -216,11 +216,11 @@ protected DefaultChannelPipeline(Channel channel) {
 
 
 
-p.addLast(new ChannelInitializer<Channel>() {
+
 
 ~~~java
 //...io.netty.channel.DefaultChannelPipeline...
-
+p.addLast(new ChannelInitializer<Channel>() {})
 //add handler by batch
 @Override
 public final ChannelPipeline addLast(ChannelHandler... handlers) {
