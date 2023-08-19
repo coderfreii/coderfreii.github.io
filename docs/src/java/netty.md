@@ -1795,8 +1795,6 @@ public void channelRead(ChannelHandlerContext ctx, Object msg) {
 
 
 
-##### 阿松大
-
 ###### pipeline.fireChannelActive();
 
 ~~~java
