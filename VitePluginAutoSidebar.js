@@ -44,7 +44,7 @@ function generateSidebarConfig(docsPath, link = '', index = 0) {
       sidebarConfig.text = filename;
       if (filename === 'src') {
         sidebarConfig.text = 'index';
-        sidebarConfig.link = '/src/index';
+        sidebarConfig.link = '/src/';
       }
 
       C.push(sidebarConfig);
