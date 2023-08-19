@@ -1,10 +1,65 @@
-```
-consistencyService
-```
-
 # nacos
 
+## 前言总结:
 
+​     一开始接触微服务的时候十分好奇，微服务是怎么运作的，具体地说是如何进行服务注册与发现的，经过一番源码查看对其原理有了进一步的了解。
+
+### 下面简单概括工作流程：
+
+​	微服务的注册已发现基本原理就是典型的 CS模型 C就是客户端 S就是服务端
+
+~~~powershell
+sh startup.sh -m standalone
+~~~
+
+​	以上命令即是启动一个服务端S    会开启一个restful的服务等待接收客户端的注册和发现
+
+~~~java
+<dependency>
+    <groupId>com.alibaba.cloud</groupId>
+    <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+</dependency>
+~~~
+
+我们自己的项目在引入上述依赖的时候，会通过通过springboot的自动装配功能自动的读取yml配置文件中的nacos里面的信息，拿到这些信息即知道注册中心的地址，通过访问和服务端约定的restful地址完成注册和发现。
+
+
+
+### 其它比较好奇的原理
+
+###### 	负载均衡是如何实现的，和nacos有什么联系？
+
+​	首先负载均衡是由loadbalance实现的，
+
+​    nacos是服务注册发现，loadbalance主要利用其服务发现的功能实现负载均衡
+
+​	具体代码的实现是通过SPI技术实现的
+
+​	服务注册的依赖如nacos  eureka等会实现 loadbalance提供的接口
+
+​	通过SPI进行实例化给loadbalance使用， 由于该类是注册中心提供的自然知道如何拉取注册中心的服务列表
+
+###### 	nacos如何推送服务的变化？
+
+​    这是因为客户端配置订阅服务变化后，会开启的udp的Server端，在自动配置时会一并将是否订阅和订阅的udpServer的端口发送给nacos， nacos感知到服务列表变化例如（没有心跳）即会查找进行订阅的客户端，通过udp将消息发送给客户端。
+
+###### 	nacos如何实现配置自动更新？
+
+​	因为这部分源码是很早看的，没有看那么仔细， 不妨合理猜测一下，
+
+​	首先nacos也是配置中心，nacos可以感知自己上面储存的配置信息的变化，并且可以对应到具体的服务的名字，那么nacos只需要通知到对应具体客户端即可，即通过网络通信,。
+
+​	随之而来就有一个问题客户端是如何找到并更新的配置类呢？
+
+​	这个问题关键在于如何找到配置类的bean ，nacos 提供了注解例如 @RefreshScope， nacos则可以通过该注解找到具体的bean并管理。再辅助一些手段例如 nacos服务端和客户端采用同样的生成`资源签名标识`的策略（这个比较常用）来定位具体需要修改的内容，有了这些信息通过反射修改配置属性即可。
+
+​	至此便可以实现配置信息的自动更新。
+
+
+
+以下为之前学习源码时记录的一些细节
+
+---
 
 ### spring注解
 
@@ -18,8 +73,6 @@ consistencyService
 @PostConstruct
 
 ~~~
-
-
 
 ### spring接口
 

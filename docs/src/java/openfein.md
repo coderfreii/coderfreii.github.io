@@ -1,3 +1,97 @@
+#### openfein
+
+本文主要是探讨为何开启ouath2 是 配置文件不能提供服务名而是要提供具体的ip地址
+
+该问题是在研究一个开源项目piggymetrics是遇到的
+
+debug后的发现原因是 oauth2使用的restTemplate 没有实现负载均衡故而无法拉取授权服务器的真实地址
+
+解决方法 重写 oauth2FeignRequestInterceptor 提供一个@LoadBalanced 的restTemplate 实例即可
+
+~~~java
+    @Bean
+    public RequestInterceptor oauth2FeignRequestInterceptor() {
+        OAuth2FeignRequestInterceptor oAuth2FeignRequestInterceptor = new OAuth2FeignRequestInterceptor(new DefaultOAuth2ClientContext(), clientCredentialsResourceDetails());
+        AccessTokenProviderChain accessTokenProviderChain = new AccessTokenProviderChain(Arrays.asList(new AuthorizationCodeAccessTokenProvider(), loadBalancedClientCredentialsAccessTokenProvider()));
+        oAuth2FeignRequestInterceptor.setAccessTokenProvider(accessTokenProviderChain);
+        return oAuth2FeignRequestInterceptor;
+    }
+
+
+    @Bean
+    @LoadBalanced
+    RestTemplate restTemplate() {
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate;
+    }
+
+
+
+    public class LoadBalancedClientCredentialsAccessTokenProvider extends ClientCredentialsAccessTokenProvider {
+
+        private RestOperations restTemplate;
+        private List<HttpMessageConverter<?>> messageConverters;
+
+        private ClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory() {
+            @Override
+            protected void prepareConnection(HttpURLConnection connection, String httpMethod)
+                    throws IOException {
+                super.prepareConnection(connection, httpMethod);
+                connection.setInstanceFollowRedirects(false);
+                connection.setUseCaches(false);
+            }
+        };
+
+        @Override
+        protected RestOperations getRestTemplate() {
+            if (this.restTemplate == null) {
+                synchronized (this) {
+                    if (restTemplate == null) {
+                        RestTemplate restTemplate = restTemplate();
+                        restTemplate.setErrorHandler(getResponseErrorHandler());
+                        restTemplate.setRequestFactory(requestFactory);
+                        this.restTemplate = restTemplate;
+                    }
+                }
+            }
+            if (messageConverters == null) {
+                setMessageConverters(new RestTemplate().getMessageConverters());
+            }
+            return restTemplate;
+        }
+
+        public void setMessageConverters(List<HttpMessageConverter<?>> messageConverters) {
+            this.messageConverters = new ArrayList<HttpMessageConverter<?>>(messageConverters);
+            this.messageConverters.add(new FormOAuth2AccessTokenMessageConverter());
+            this.messageConverters.add(new FormOAuth2ExceptionHttpMessageConverter());
+        }
+
+        protected ResponseExtractor<OAuth2AccessToken> getResponseExtractor() {
+            getRestTemplate(); // force initialization
+            return new HttpMessageConverterExtractor<OAuth2AccessToken>(OAuth2AccessToken.class, this.messageConverters);
+        }
+    };
+
+    /**
+     * 负载均衡客户端凭据访问令牌提供者
+     *
+     * @return {@link ClientCredentialsAccessTokenProvider}
+     */
+    @Bean
+    ClientCredentialsAccessTokenProvider loadBalancedClientCredentialsAccessTokenProvider() {
+        LoadBalancedClientCredentialsAccessTokenProvider loadBalancedClientCredentialsAccessTokenProvider = new LoadBalancedClientCredentialsAccessTokenProvider();
+        return loadBalancedClientCredentialsAccessTokenProvider;
+    }
+~~~
+
+
+
+-----------------
+
+以下为修改后openfein的源码调用逻辑
+
+
+
 ###### 初始化默认LoadBalancer(Request request = targetRequest(template)分支)
 
 ~~~java

@@ -1,4 +1,6 @@
-sercurity 结构图
+# 前言
+
+第一个深入阅读的源码，由于当时水平有限，看了许久，中间断断续续，因而显得愈发凌乱，有机会整理一下。
 
 ## Security Filters
 
@@ -245,7 +247,7 @@ List<Filter> filters = getFilters(firewallRequest);
 	}
 
 
-	//getFilters方法内部    
+//getFilters方法内部    
  ...一系列判断
  //生成security的 filterchain
  VirtualFilterChain virtualFilterChain = new VirtualFilterChain(firewallRequest, chain, filters);

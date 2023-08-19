@@ -1,10 +1,6 @@
 # SpringBoot
 
-
-
-### ApplicationContext
-
-
+springboot 基本spring加上自动配置
 
 #### SpringBoot 根据配置
 

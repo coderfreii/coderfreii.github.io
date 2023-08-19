@@ -1,18 +1,16 @@
 # JNI
 
+jni 调用本地方法地，比较消耗性能并且需要自定义时可以使用
+
 ## 前置知识
 
 ~~~java
 javac Hello.java 
 ~~~
 
-
-
 ~~~shell
 cl  -I 指定 lib
 ~~~
-
-
 
 # win
 
