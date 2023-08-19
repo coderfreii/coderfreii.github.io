@@ -1,0 +1,21 @@
+{
+  "name": "markdow",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "test",
+  "main": "index.js",
+  "repository": "https://github.com/coderfreii/coderfreii.github.io.git",
+  "author": "tl <tl3656794@outlook.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "vitepress": "^1.0.0-rc.4"
+  },
+  "scripts": {
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:serve": "vitepress serve docs"
+  },
+  "dependencies": {
+    "markdown-it": "^13.0.1"
+  }
+}
