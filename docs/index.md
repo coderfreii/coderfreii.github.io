@@ -4,7 +4,7 @@ layout: home
 hero:
   # name: 记录
   # text: 内容信息
-  tagline: 代码之路的一些学习记录
+  tagline: 代码之路的一些历程记录
   # image:
   #   src: /logo.png
   #   alt: 网站的 logo 图片
