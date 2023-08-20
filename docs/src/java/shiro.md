@@ -2,7 +2,7 @@
 
 和spring securty的核心逻辑几乎差不多 都是在过滤器里面做文章，
 
-但是spring securty要更重一些，功能要更丰富，不过一般shiro足以 只需要做一下前后端分离的改造即可
+但是spring securty要更重一些，功能要更丰富，不过一般来说使用shiro足以，只需要做一下前后端分离的改造即可
 
 ###### 坑
 
@@ -509,9 +509,7 @@ protected boolean isAccessAllowed(ServletRequest request, ServletResponse respon
 
 
 
-
-
-// 利用 shiro 框架登录失败 会继续传递请求到 contoller /login 实现自定义登录
+// 利用 shiro 框架登录失败 会继续传递请到 contoller /login 实现自定义登录
 
 ~~~java
 protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e,

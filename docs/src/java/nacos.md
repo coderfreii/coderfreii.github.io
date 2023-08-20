@@ -35,9 +35,9 @@ sh startup.sh -m standalone
 
 ​	具体代码的实现是通过SPI技术实现的
 
-​	服务注册的依赖如nacos  eureka等会实现 loadbalance提供的接口
+​	注册中心如nacos  eureka等会实现 loadbalance提供的接口
 
-​	通过SPI进行实例化给loadbalance使用， 由于该类是注册中心提供的自然知道如何拉取注册中心的服务列表
+​	通过SPI进行实例化给loadbalance使用， 由于该类是注册中心提供的自然有能力拉取注册中心的服务列表
 
 ###### 	nacos如何推送服务的变化？
 

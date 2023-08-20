@@ -305,25 +305,25 @@ public @interface ApiPropertyEnumReference {
 
 ###### ParameterBuilderPlugin 
 
-该接口是处理参数再方法入参上的注解 对应的注解也是ApiPropertyEnumReference
+​	该接口是处理参数再方法入参上的注解 对应的注解也是ApiPropertyEnumReference
 
 ###### OperationBuilderPlugin 
 
-该接口处理的是 方法的显示注解    自定义的注解为ApiImplicitEnumParams 和  ApiImplicitEnumParam
+​	该接口处理的是 方法的显示注解    自定义的注解为ApiImplicitEnumParams 和  ApiImplicitEnumParam
 
-此处我对原来的注解ApiImplicitParam 做了兼容
+​	此处我对原来的注解ApiImplicitParam 做了兼容
 
-因为做的是加法这里具体注解代码太长就不展示了  
+​	因为做的是加法这里具体注解代码太长就不展示了  
 
 ###### ParameterExpansionContext（不常用）
 
-该接口是处理哪些将入参bean的属性平铺展开的情况  处理的注解为ApiPropertyEnumReference
+​	该接口是处理哪些将入参bean的属性平铺展开的情况  处理的注解为ApiPropertyEnumReference
 
-上述四个几口糅合到了一个插件里，扩展这个小小的功能增加的文件数已经很多了，故而写在一起，也可以根据喜好分开实现。
+上述四个接口实现糅合到了一个类里，因为扩展这个小小的功能增加的文件数已经很多了，故而写在一起，可以自行根据喜好分开实现。
 
 ###### 题外话
 
-当时在做这个项目的时候，时间比较充足，就想着既然需要传什么值在swagger通过配置枚举类已经定好了，何不顺便将校验一起做了。 因为虽然前端现在知道需要传什么值了，但如果传错了也没有什么提示信息，故而有了该想法，就顺便深度自定义了spring的验证框架validation， 并使其可以通过swagger注解指定的枚举类，判断前端传值是否合法。
+​		当时在做这个项目的时候，时间比较充足，就想着既然需要传什么值在swagger通过配置枚举类已经定好了，何不顺便将校验一起做了。 因为虽然前端现在知道需要传什么值了，但如果传错了也没有什么提示信息，故而有了该想法，就顺便深度自定义了spring的验证框架validation， 并使其可以通过swagger注解指定的枚举类，判断前端传值是否合法。
 
 实现过程中寻找扩展点的时候踩了不少坑, 不过这是另一个话题了，随后有机会再聊。
 
