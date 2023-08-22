@@ -709,9 +709,9 @@ public class B {
         //后面才加入三级缓存  故而循环依赖失败
 ~~~
 
-beforeSingletonCreation
+###### beforeSingletonCreation
 
-因为A正在实力化故而抛异常
+因为A正在实例化故而抛异常
 
 ~~~java
 	protected void beforeSingletonCreation(String beanName) {
