@@ -6,10 +6,6 @@
 
 
 
-ChatGPT
-
-
-
 在Windows平台上，生成导入库（.lib文件）可以通过以下几种方式来实现：
 
 ### 方法一：使用编译器的导出选项
@@ -56,10 +52,6 @@ lib /def:mydll.def /OUT:mydll.lib
 
 
 vs 如何配置
-
-
-
-ChatGPT
 
 
 
@@ -115,10 +107,6 @@ ChatGPT
 
 
 
-ChatGPT
-
-
-
 对不起，出现了误导。我之前提到的 "生成导入库" 选项在 Visual Studio 中并不存在。实际上，在生成 DLL 时，导入库（.lib 文件）会自动生成，并且无需显式设置。
 
 当你生成 DLL 项目时，Visual Studio 默认会生成与 DLL 同名的导入库文件，它的名称会是 `mydll.lib`，其中 "mydll" 是你的 DLL 项目的名称。导入库文件将包含 DLL 中导出函数的信息，以便其他项目可以在链接时正确地解析函数引用。
@@ -136,10 +124,6 @@ ChatGPT
 2 / 2
 
 visual studio中 不加 __declspec(dllexport) 如何生成导入库
-
-
-
-ChatGPT
 
 
 
@@ -179,12 +163,6 @@ ChatGPT
 
 还有别的方法吗
 
-
-
-ChatGPT
-
-
-
 除了使用 Module Definition File (.def 文件) 的方法，还有另一种常用的方法来生成导入库，即使用编译器选项 `/EXPORT`。这种方式可以在不使用 `__declspec(dllexport)` 的情况下，直接在编译时指定需要导出的函数。
 
 以下是在 Visual Studio 中使用编译器选项 `/EXPORT` 来生成导入库的步骤：
@@ -217,12 +195,6 @@ ChatGPT
 
 还有吗
 
-
-
-ChatGPT
-
-
-
 除了上述两种方法外，还有一种更简单的方法，但是仅限于使用 Visual Studio 编译器（cl.exe）。
 
 在 Visual Studio 中，你可以直接使用 `__declspec(dllexport)` 来标记需要导出的函数，并且不需要额外的配置即可生成导入库。
@@ -248,12 +220,6 @@ extern "C" __declspec(dllexport) int MyFunction(int a, int b) {
 ## 动态库导入种类
 
 动态库导入有几种   分别是显式还是隐式
-
-
-
-ChatGPT
-
-
 
 动态库导入有两种主要方式：显式导入和隐式导入。这两种方式都是在运行时动态加载动态链接库（DLL）的方法，但它们在调用导出函数的方式上略有不同。
 
