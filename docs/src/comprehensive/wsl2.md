@@ -26,6 +26,12 @@ wsl --set-default-version 2
 
 
 
+###### 安装发行版
+
+省略
+
+
+
 ###### 设置window的防火墙
 
 ~~~powershell
@@ -117,10 +123,22 @@ sudo ip route add 0.0.0.0/0 via $gateway dev $net_dev
 sudo sed -i "\$c nameserver $nameserver" /etc/resolv.conf
 ~~~
 
-随后如果局域网无法访问wsl
-可尝试wsl主动ping一下网关
+随后如果局域网无法访问wsl，可尝试wsl主动ping一下网关，再访问。
 
+###### 开启桥接后影响宿主机网速   
+
+解决方法（只能就解决宿主机速度异常）
+
+https://zhuanlan.zhihu.com/p/625867441
+
+###### 最后的问题
+
+桥接模式成功从局域网中其它主机连接到WSL， 但是从WSL下载的速度过慢  带宽大概4-5Mib/s
+
+该问题尚未解决
+
+###### 其它
 
 ###### 设置golang国内代理
-go env -w GOPROXY=https://proxy.golang.com.cn,direct
 
+go env -w GOPROXY=https://proxy.golang.com.cn,direct
